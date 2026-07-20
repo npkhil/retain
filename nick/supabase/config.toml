@@ -1,0 +1,13 @@
+# Basic Supabase local project config
+# This is a placeholder config for a dummy database setup.
+
+project_id = "local"
+project_ref = "local"
+api_version = "1"
+
+[db]
+  host = "localhost"
+  port = 54322
+  user = "postgres"
+  password = "postgres"
+  database = "postgres"
