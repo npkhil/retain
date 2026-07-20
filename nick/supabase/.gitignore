@@ -1,0 +1,5 @@
+# Ignore Supabase local files and generated data
+
+.env
+.supabase
+postgres-data
