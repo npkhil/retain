@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>File Uploader (Supabase)</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial;margin:24px}
+    label{display:block;margin-top:12px}
+    input,button,textarea,select{font-size:14px;padding:8px;margin-top:6px;width:100%;max-width:560px}
+    #log{white-space:pre-wrap;margin-top:12px;background:#f7f7f7;padding:12px;border-radius:6px}
+  </style>
+</head>
+<body>
+  <h1>Upload a file → Supabase</h1>
+  <form id="uploadForm">
+    <label>File
+      <input id="fileInput" type="file" required />
+    </label>
+    <label>Bucket (create this in Supabase > Storage)
+      <input id="bucket" type="text" value="uploads" />
+    </label>
+    <label>Folder / path inside bucket (optional)
+      <input id="folder" type="text" placeholder="e.g. avatars or docs/2026-07" />
+    </label>
+    <label>Filename (optional)
+      <input id="fileName" type="text" placeholder="leave empty to keep original name" />
+    </label>
+    <label>Description
+      <textarea id="description" rows="3" placeholder="optional metadata"></textarea>
+    </label>
+    <button id="uploadBtn" type="submit">Upload</button>
+  </form>
+
+  <div id="log">Status: idle</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
