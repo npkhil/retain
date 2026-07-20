@@ -1,0 +1,106 @@
+{
+  "Preamble to the Constitution.pdf": [
+    {
+      "question": "What three words begin the Preamble to the US Constitution?",
+      "answer": "We the People",
+      "sourceFile": "Preamble to the Constitution.pdf"
+    },
+    {
+      "question": "According to the Preamble, what is one of the purposes for establishing the Constitution?",
+      "answer": "To form a more perfect Union",
+      "sourceFile": "Preamble to the Constitution.pdf"
+    },
+    {
+      "question": "Which of the following is NOT listed as a purpose in the Preamble: establish Justice, insure domestic Tranquility, provide for the common defense, or establish a national bank?",
+      "answer": "Establish a national bank",
+      "sourceFile": "Preamble to the Constitution.pdf"
+    },
+    {
+      "question": "What phrase in the Preamble refers to protecting peace within the country?",
+      "answer": "Insure domestic Tranquility",
+      "sourceFile": "Preamble to the Constitution.pdf"
+    },
+    {
+      "question": "What does the Preamble describe as the 'Blessings of Liberty'?",
+      "answer": "Freedom or liberty",
+      "sourceFile": "Preamble to the Constitution.pdf"
+    },
+    {
+      "question": "To whom does the Preamble pledge to secure the Blessings of Liberty?",
+      "answer": "Ourselves and our Posterity",
+      "sourceFile": "Preamble to the Constitution.pdf"
+    },
+    {
+      "question": "What military-related purpose is mentioned in the Preamble?",
+      "answer": "Provide for the common defense",
+      "sourceFile": "Preamble to the Constitution.pdf"
+    },
+    {
+      "question": "What verb is used twice in the final clause of the Preamble regarding the Constitution?",
+      "answer": "Ordain and establish",
+      "sourceFile": "Preamble to the Constitution.pdf"
+    },
+    {
+      "question": "What phrase in the Preamble refers to improving the quality of the unified states?",
+      "answer": "Form a more perfect Union",
+      "sourceFile": "Preamble to the Constitution.pdf"
+    },
+    {
+      "question": "What is the name of the institute credited with publishing this document?",
+      "answer": "The Gilder Lehrman Institute of American History",
+      "sourceFile": "Preamble to the Constitution.pdf"
+    }
+  ],
+  "Igneous Rocks Slide 1.pdf": [
+    {
+      "question": "What are the two major states of molten rock, and how do they differ in location?",
+      "answer": "Magma is molten rock that exists below Earth's surface, while lava is magma that has reached Earth's surface, usually through volcanic eruption.",
+      "sourceFile": "Igneous Rocks Slide 1.pdf"
+    },
+    {
+      "question": "What is the relationship between cooling rate and crystal size in igneous rocks?",
+      "answer": "Slower cooling rates produce larger crystals, while faster cooling rates produce smaller crystals.",
+      "sourceFile": "Igneous Rocks Slide 1.pdf"
+    },
+    {
+      "question": "What is the process called when ions in cooling molten rock slow down and arrange themselves into orderly crystalline structures?",
+      "answer": "Crystallization",
+      "sourceFile": "Igneous Rocks Slide 1.pdf"
+    },
+    {
+      "question": "Name the three major rock types and briefly describe how igneous rocks form.",
+      "answer": "The three major rock types are igneous, sedimentary, and metamorphic. Igneous rocks are formed by the cooling of molten rock (magma or lava) near, at, or below Earth's surface.",
+      "sourceFile": "Igneous Rocks Slide 1.pdf"
+    },
+    {
+      "question": "What is Bowen's Reaction Series and what does it describe?",
+      "answer": "Bowen's Reaction Series is a model that describes the formation of igneous rocks with emphasis on how temperature changes, melting points, and cooling rates affect the types of minerals that crystallize and their resultant rock compositions.",
+      "sourceFile": "Igneous Rocks Slide 1.pdf"
+    },
+    {
+      "question": "What is the main difference between ferromagnesian and non-ferromagnesian silicates in terms of composition and color?",
+      "answer": "Ferromagnesian silicates contain greater amounts of iron and magnesium with less silica and are dark colored, while non-ferromagnesian silicates contain more potassium, sodium, and calcium with more silica and are light colored.",
+      "sourceFile": "Igneous Rocks Slide 1.pdf"
+    },
+    {
+      "question": "What defines porphyritic texture and what does it indicate about the rock's formation history?",
+      "answer": "Porphyritic texture contains both coarse-grained and fine-grained crystals. It indicates that coarse grains developed as magma cooled below Earth's surface, then the remaining magma or lava cooled rapidly after eruption or exposure to lower temperatures.",
+      "sourceFile": "Igneous Rocks Slide 1.pdf"
+    },
+    {
+      "question": "What is the key characteristic of glassy textured igneous rocks and why do they form this way?",
+      "answer": "Glassy textured rocks have no crystalline structure and are amorphous. They form from very rapid cooling of silica-rich magma, preventing ion arrangement into orderly crystalline structures.",
+      "sourceFile": "Igneous Rocks Slide 1.pdf"
+    },
+    {
+      "question": "Name three common ferromagnesian silicate minerals found in igneous rocks.",
+      "answer": "Any three of the following: olivine, pyroxene, amphibole, biotite, hornblende, augite, or peridote.",
+      "sourceFile": "Igneous Rocks Slide 1.pdf"
+    },
+    {
+      "question": "What percentage of Earth's crust is composed of granitic rocks, and what are the primary minerals they contain?",
+      "answer": "Granitic rocks make up about 70% of Earth's crust and primarily contain quartz, feldspar, biotite, and amphibole.",
+      "sourceFile": "Igneous Rocks Slide 1.pdf"
+    }
+  ]
+}
