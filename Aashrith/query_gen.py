@@ -2,7 +2,6 @@
 This module contains functions for generating queries based on files pulled from the database.
 """
 
-import base64
 import json
 import os
 from dataclasses import dataclass, asdict
@@ -11,9 +10,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent.parent / ".env")
 
-import anthropic
-client = anthropic.Anthropic(api_key = os.getenv("ANTHROPIC_API_KEY"))
-MODEL = "claude-haiku-4-5-20251001"
+from huggingface_hub import InferenceClient
+client = InferenceClient(api_key = os.getenv("HUGGINGFACE_API_TOKEN"))
+MODEL = "mistralai/Mistral-7B-Instruct-v0.3"
 
 SAMPLE_FILES_DIR = Path(__file__).parent.parent / "Sample Files"
 
@@ -26,7 +25,7 @@ QUESTIONS_PER_FILE = 10  # how many questions to generate per file on first run
 
 #temporarily hardcoded function that gets a file, once the db layer exists this should be replaced with a real lookup
 def get_file() -> Path:
-    return SAMPLE_FILES_DIR / "Igneous Rocks Slide 1.pdf"
+    return SAMPLE_FILES_DIR / "Igneous Rocks Slide 1.txt"
 
 #question generation object
 @dataclass
@@ -50,56 +49,35 @@ def _save_db(db: dict) -> None:
 
 #calls the api once to generate `count` distinct questions for a file, instead of one call per question
 def generate_batch(file_path: Path, count: int) -> list[dict]:
-    with open(file_path, "rb") as f:
-        base64_data = base64.standard_b64encode(f.read()).decode("utf-8")
+    document_text = file_path.read_text(encoding = "utf-8")
 
-    response = client.messages.create(
-        model = MODEL,
-        max_tokens = 2000,
-        messages = [
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "document",
-                        "source": {
-                            "type": "base64",
-                            "media_type": "application/pdf",
-                            "data": base64_data,
-                        },
-                        # Caches the PDF itself. If we regenerate more questions
-                        # for this same file within the cache window (5 min by
-                        # default), Claude re-reads it at ~10% of normal input
-                        # cost instead of full price.
-                        "cache_control": {"type": "ephemeral"},
-                    },
-                    {
-                        "type": "text",
-                        "text": (
-                            f"Based on this document, generate {count} DISTINCT quiz questions "
-                            "that each test recall of a different key concept, along with each "
-                            "correct answer. Respond with ONLY a JSON array in this exact shape, "
-                            "no other text, no markdown fences: "
-                            '[{"question": "...", "answer": "..."}, ...]'
-                        ),
-                    },
-                ],
-            }
-        ],
+    prompt = (
+        f"Based on the document below, generate {count} DISTINCT quiz questions "
+        "that each test recall of a different key concept, along with each "
+        "correct answer. Respond with ONLY a JSON array in this exact shape, "
+        "no other text, no markdown fences: "
+        '[{"question": "...", "answer": "..."}, ...]\n\n'
+        f"Document:\n{document_text}"
     )
 
-    text_block = next((b for b in response.content if b.type == "text"), None)
-    if text_block is None:
-        raise RuntimeError("Claude API returned no text content")
+    response = client.chat.completions.create(
+        model = MODEL,
+        max_tokens = 2000,
+        messages = [{"role": "user", "content": prompt}],
+    )
 
-    cleaned = text_block.text.replace("```json", "").replace("```", "").strip()
+    response_text = response.choices[0].message.content
+    if not response_text:
+        raise RuntimeError("Hugging Face API returned no text content")
+
+    cleaned = response_text.replace("```json", "").replace("```", "").strip()
     try:
         parsed = json.loads(cleaned)
     except json.JSONDecodeError as e:
-        raise RuntimeError(f"Failed to parse JSON from Claude API response: {text_block.text}") from e
+        raise RuntimeError(f"Failed to parse JSON from Hugging Face API response: {response_text}") from e
 
     if not isinstance(parsed, list):
-        raise RuntimeError(f"Expected a JSON array of questions, got: {text_block.text}")
+        raise RuntimeError(f"Expected a JSON array of questions, got: {response_text}")
 
     return parsed
 
