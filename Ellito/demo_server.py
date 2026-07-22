@@ -2,36 +2,95 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 import cgi
 import json
+import os
 import shutil
 import sqlite3
 import time
 
+try:
+    import psycopg
+except ModuleNotFoundError:  # pragma: no cover - optional dependency
+    psycopg = None
+
+try:
+    from upload_to_db import add_uploaded_file
+except Exception:  # pragma: no cover - optional bridge import
+    add_uploaded_file = None
+
 BASE_DIR = Path(__file__).resolve().parent
 UPLOAD_DIR = BASE_DIR / "uploads"
-DB_PATH = BASE_DIR / "sample_uploads.db"
 INDEX_PATH = BASE_DIR / "demo_index.html"
 APP_JS_PATH = BASE_DIR / "demo_app.js"
+DB_PATH = BASE_DIR / "sample_uploads.db"
+DB_URL = os.getenv("POSTGRES_URL", "postgresql://postgres:postgres@127.0.0.1:54322/postgres")
+USE_POSTGRES = os.getenv("USE_POSTGRES", "1" if psycopg is not None else "0") == "1"
 
 UPLOAD_DIR.mkdir(exist_ok=True)
 
 
 def init_db():
+    if USE_POSTGRES:
+        with psycopg.connect(DB_URL) as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    create table if not exists users (
+                      id uuid primary key default gen_random_uuid(),
+                      username text not null unique,
+                      full_name text not null,
+                      created_at timestamptz not null default now()
+                    )
+                    """
+                )
+                cur.execute(
+                    """
+                    create table if not exists files (
+                      id uuid primary key default gen_random_uuid(),
+                      user_id uuid not null references users(id) on delete cascade,
+                      file_name text not null,
+                      file_path text not null,
+                      content text,
+                      created_at timestamptz not null default now()
+                    )
+                    """
+                )
+            conn.commit()
+        return
+
     conn = sqlite3.connect(DB_PATH)
     conn.execute(
         """
-        CREATE TABLE IF NOT EXISTS files (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            path TEXT NOT NULL,
-            size INTEGER,
-            content_type TEXT,
-            description TEXT,
-            uploaded_at TEXT DEFAULT CURRENT_TIMESTAMP
+        create table if not exists files (
+            id integer primary key autoincrement,
+            name text not null,
+            path text not null,
+            size integer,
+            content_type text,
+            description text,
+            uploaded_at text default current_timestamp
         )
         """
     )
     conn.commit()
     conn.close()
+
+
+def ensure_demo_user(conn):
+    if not USE_POSTGRES:
+        return None
+
+    with conn.cursor() as cur:
+        cur.execute("select id from users where username = %s", ("demo-upload",))
+        row = cur.fetchone()
+        if row:
+            return row[0]
+
+        cur.execute(
+            "insert into users (username, full_name) values (%s, %s) returning id",
+            ("demo-upload", "Demo Upload User"),
+        )
+        conn.commit()
+        return cur.fetchone()[0]
 
 
 class DemoUploadHandler(BaseHTTPRequestHandler):
@@ -99,14 +158,36 @@ class DemoUploadHandler(BaseHTTPRequestHandler):
         with stored_path.open("wb") as out_file:
             shutil.copyfileobj(file_storage.file, out_file)
 
+        if USE_POSTGRES:
+            db_id = None
+            if add_uploaded_file is not None:
+                try:
+                    db_id = add_uploaded_file(str(stored_path), "demo-upload", "Demo Upload User")
+                except Exception as exc:
+                    self.send_json(500, {
+                        "error": f"Database insert failed: {exc}",
+                        "name": original_name,
+                        "path": str(stored_path),
+                    })
+                    return
+
+            self.send_json(200, {
+                "message": "upload saved",
+                "id": str(db_id) if db_id is not None else "n/a",
+                "name": original_name,
+                "path": str(stored_path),
+                "description": description,
+            })
+            return
+
         conn = sqlite3.connect(DB_PATH)
         cur = conn.cursor()
         cur.execute(
             """
-            INSERT INTO files (name, path, size, content_type, description)
-            VALUES (?, ?, ?, ?, ?)
+            insert into files (name, path, size, content_type, description)
+            values (?, ?, ?, ?, ?)
             """,
-            [original_name, str(stored_path), file_storage.file.tell(), file_storage.type, description],
+            (original_name, str(stored_path), stored_path.stat().st_size, "application/octet-stream", description or ""),
         )
         conn.commit()
         row_id = cur.lastrowid
