@@ -5,8 +5,10 @@ This folder contains a simple Supabase-style database scaffold for development a
 ## Files
 
 - `config.toml` — basic Supabase local project configuration.
-- `migrations/1_init.sql` — schema definitions for `users`, `files`, and `questions`.
+- `migrations/1_init.sql` — schema definitions for `users` (identified by username), `files`, and `questions`.
 - `seed.sql` — dummy data for `users`, `files`, and `questions`.
+
+The `questions` table now includes `source_file_id`, which references the `files` table as the source file for each generated question.
 
 ## Usage
 
