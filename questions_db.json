@@ -102,5 +102,57 @@
       "answer": "Granitic rocks make up about 70% of Earth's crust and primarily contain quartz, feldspar, biotite, and amphibole.",
       "sourceFile": "Igneous Rocks Slide 1.pdf"
     }
+  ],
+  "Igneous Rocks Slide 1.txt": [
+    {
+      "question": "What is the primary difference between magma and lava?",
+      "answer": "Magma is molten rock below the Earth's surface, while lava is molten rock that has reached the Earth's surface.",
+      "sourceFile": "Igneous Rocks Slide 1.txt"
+    },
+    {
+      "question": "What process occurs when molten rock cools and ions slow down to form orderly crystalline structures?",
+      "answer": "Crystallization",
+      "sourceFile": "Igneous Rocks Slide 1.txt"
+    },
+    {
+      "question": "How do slower cooling rates affect crystal size in igneous rocks?",
+      "answer": "Slower cooling rates produce larger individual crystals.",
+      "sourceFile": "Igneous Rocks Slide 1.txt"
+    },
+    {
+      "question": "What are phenocrysts in a porphyritic textured rock?",
+      "answer": "Phenocrysts are the larger grains in a porphyritic rock that developed as magma cooled below the Earth's surface.",
+      "sourceFile": "Igneous Rocks Slide 1.txt"
+    },
+    {
+      "question": "Which mineral group crystallizes at higher temperatures according to Bowen's Reaction Series?",
+      "answer": "Ferromagnesian silicates",
+      "sourceFile": "Igneous Rocks Slide 1.txt"
+    },
+    {
+      "question": "What percentage of the Earth's crust is made up of granitic rocks?",
+      "answer": "About 70%",
+      "sourceFile": "Igneous Rocks Slide 1.txt"
+    },
+    {
+      "question": "What does mafic refer to in the classification of igneous rocks?",
+      "answer": "Rocks with high percentages of ferromagnesian minerals, where 'ma' stands for magnesium and 'f' stands for ferrum (iron).",
+      "sourceFile": "Igneous Rocks Slide 1.txt"
+    },
+    {
+      "question": "What type of texture does obsidian have and why does it produce a conchoidal fracture?",
+      "answer": "Obsidian has a glassy texture with unordered (amorphous) ions that have no crystalline structure, which causes it to produce a conchoidal fracture when broken.",
+      "sourceFile": "Igneous Rocks Slide 1.txt"
+    },
+    {
+      "question": "What are vesicles in an aphanitic rock and how do they form?",
+      "answer": "Vesicles are small openings in the rock formed when it cools very quickly and preserves the pockets created by expanding trapped gas bubbles.",
+      "sourceFile": "Igneous Rocks Slide 1.txt"
+    },
+    {
+      "question": "What is the characteristic surface texture of pahoehoe lava and what causes it?",
+      "answer": "Pahoehoe lava has a smooth, rope-like surface caused by tension from cooling surface lava while molten material beneath continues to flow, creating overlapping ropy lobes.",
+      "sourceFile": "Igneous Rocks Slide 1.txt"
+    }
   ]
 }
