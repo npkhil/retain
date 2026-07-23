@@ -10,9 +10,9 @@ def main() -> None:
     project_root = current_dir.parent.parent
     username = "dude"
     # add user to the database
-    _create_user(username, "Dude")
-    
-    add_file(str(project_root / "Sample Files" / "Preamble to the Constitution.pdf"), username)
+    # _create_user(username, "Dude")
+
+    add_file(str(project_root / "Sample Files" / "Igneous Rocks Slide 1.pdf"), username)
 
     
 
