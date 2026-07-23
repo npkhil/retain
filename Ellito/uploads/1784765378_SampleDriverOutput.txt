@@ -1,0 +1,10 @@
+First: Blue
+Last: Red
+Size: 3
+Retrieve First: Blue
+Retrieve Last: Red
+Removing Red
+Iteration: Yellow 
+
+Iteration (for sorted list): Red Yellow 
+After remove in sorted list first is: Yellow
