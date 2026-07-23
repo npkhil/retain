@@ -6,6 +6,7 @@ import json
 import os
 from dataclasses import dataclass, asdict
 from pathlib import Path
+from nick.supabase.db import get_filepath, add_question, get_questions
 
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent.parent / ".env")
@@ -25,7 +26,7 @@ QUESTIONS_PER_FILE = 10  # how many questions to generate per file on first run
 
 #temporarily hardcoded function that gets a file, once the db layer exists this should be replaced with a real lookup
 def get_file() -> Path:
-    return SAMPLE_FILES_DIR / "Igneous Rocks Slide 1.txt"
+    return get_filepath("Igneous Rocks Slide 1.pdf", "dude")
 
 #question generation object
 @dataclass
