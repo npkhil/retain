@@ -1,0 +1,28 @@
+Topics covered:
+
+(Tuesday, Feb 3) Axioms for the real numbers. Definitions of the natural numbers, integers, and rational numbers. The square root of 2 is not rational. (Fitzpatrick, section 1.1.)
+(Thursday, Feb 5) The distribution of the integers and rational numbers. Inequalities and formulas: triangle inequality, difference of powers formula, geometric sum formula, and binomial formula. (Fitzpatrick, sections 1.2 and 1.3.)
+(Tuesday, Feb 10) Sequences and convergence. Definitions, examples, comparison lemma, compatibility with sums, products and quotients. (Fitzpatrick, section 2.1)
+(Thursday, Feb 12) Boundedness of convergent sequences, sequential density, closed sets, monotone convergence theorem. (Fitzpatrick, sections 2.2 and 2.3)
+(Tuesday, Feb 17) Sequential compactness, definition and basic properties of continuous functions. (Fitzpatrick, sections 2.4 and 3.1)
+(Thursday, Feb 19) Extreme value theorem. Intermediate value theorem. Existence and uniqueness of nth roots. (Fitzpatrick, sections 3.2 and 3.3)
+(Tuesday, Feb 24) Convex subsets of R, Uniform continuity. (Fitzpatrick, sections 3.3 and 3.4)
+(Thursday, Feb 26) Midterm 1 review.
+(Tuesday, Mar 3) Midterm 1.
+(Thursday, Mar 5) Epsilon-delta continuity. (Fitzpatrick, section 3.5)
+(Tuesday, Mar 10) Images and Inverses; monotone functions. (Fitzpatrick, section 3.6)
+(Thursday, Mar 12) Limits and introduction to the derivative. (Fitzpatrick, sections 3.7 & 4.1)
+(Tuesday & Thursday, Mar 17 & 19) Spring break.
+(Tuesday, Mar 24) Computing derivatives -- product rule, quotient rule, chain rule, derivative of inverse. (Fitzpatrick, sections 4.1 & 4.2)
+(Tuesday, Mar 31) Mean value theorem and applications. Cauchy mean value theorem. (Fitzpatrick, sections 4.3 & 4.4)
+(Thursday, April 2) Review for Midterm 2.
+(Tuesday, April 7) Midterm 2.
+(Thursday, April 9) Riemann integral, integrable functions, Archimedes--Riemann theorem. (Fitzpatrick, sections 6.1 & 6.2)
+(Tuesday, April 14) Basic properties of the integral: additivity, monotonicity, linearity. Integrability of continuous functions. (Fitzpatrick, sections 6.3 & 6.4)
+(Thursday, April 16) Fundamental theorems of calculus. Integration by parts and u-substitution. (Fitzpatrick, sections 6.5, 6.6 & 7.2)
+(Tuesday, April 21) Logarithm, exponential, trigonometric functions, pi and the area of the circle. (Fitzpatrick, sections 5.1, 5.2, 5.3 & 7.2)
+(Thursday, April 23) Tangent function, inverse trigonometric functions, Taylor polynomials, Lagrange remainder theorem, convergence of Taylor polynomials. (Fitzpatrick, sections 5.3, 5.4, 8.1, 8.2 & 8.3)
+(Tuesday, April 28) Irrationality of e, convergence of Taylor series for natural log, Cauchy sequences. (Fitzpatrick, sections 8.2, 8.4 & 9.1)
+(Thursday, April 30) Convergence tests for infinite series. (Fitzpatrick, section 9.1)
+(Tuesday, May 5) Pointwise vs uniform convergence, power series. (Fitzpatric, sections 9.2, 9.3, 9.4 & 9.5)
+(Thursday, May 7) Final exam review.

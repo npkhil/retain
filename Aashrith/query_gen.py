@@ -4,8 +4,11 @@ This module contains functions for generating queries based on files pulled from
 
 import json
 import os
+import sys
 from dataclasses import dataclass, asdict
 from pathlib import Path
+# Adds the parent directory of this script's folder to sys.path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 from nick.supabase.db import get_filepath, add_question, get_questions
 
 from dotenv import load_dotenv
@@ -26,7 +29,7 @@ QUESTIONS_PER_FILE = 10  # how many questions to generate per file on first run
 
 #temporarily hardcoded function that gets a file, once the db layer exists this should be replaced with a real lookup
 def get_file() -> Path:
-    return get_filepath("Igneous Rocks Slide 1.pdf", "dude")
+    return Path(get_filepath("1784769015_Topics covered.txt", "dude"))
 
 #question generation object
 @dataclass
@@ -109,11 +112,11 @@ def generate_question(
     if file_path is None:
         file_path = get_file()
 
-    db = _load_db()
-    key = file_path.name
+    # db = _load_db()
+    # key = file_path.name
 
-    if not force_regenerate and key in db and db[key]:
-        return [GeneratedQuestion(**q) for q in db[key]]
+    # if not force_regenerate and key in db and db[key]:
+    #     return [GeneratedQuestion(**q) for q in db[key]]
 
     rawQuestions = generate_batch(file_path, count)
 
@@ -121,10 +124,11 @@ def generate_question(
     for q in rawQuestions:
         if "question" not in q or "answer" not in q:
             continue
-        questions.append(GeneratedQuestion(question = q["question"], answer = q["answer"], sourceFile = key))
+        questions.append(GeneratedQuestion(question = q["question"], answer = q["answer"], sourceFile = file_path))
+        add_question("dude", q["question"], q["answer"], source_file_path = str(file_path))
 
-    db[key] = [asdict(q) for q in questions]
-    _save_db(db)
+    # db[key] = [asdict(q) for q in questions]
+    # _save_db(db)
 
     return questions
 
