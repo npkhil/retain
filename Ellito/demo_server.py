@@ -14,8 +14,11 @@ except ModuleNotFoundError:  # pragma: no cover - optional dependency
 
 try:
     from upload_to_db import add_uploaded_file
-except Exception:  # pragma: no cover - optional bridge import
+except Exception as exc:  # pragma: no cover - optional bridge import
     add_uploaded_file = None
+    DB_BRIDGE_ERROR = exc
+else:
+    DB_BRIDGE_ERROR = None
 
 BASE_DIR = Path(__file__).resolve().parent
 UPLOAD_DIR = BASE_DIR / "uploads"
@@ -23,7 +26,7 @@ INDEX_PATH = BASE_DIR / "demo_index.html"
 APP_JS_PATH = BASE_DIR / "demo_app.js"
 DB_PATH = BASE_DIR / "sample_uploads.db"
 DB_URL = os.getenv("POSTGRES_URL", "postgresql://postgres:postgres@127.0.0.1:54322/postgres")
-USE_POSTGRES = os.getenv("USE_POSTGRES", "1" if psycopg is not None else "0") == "1"
+USE_POSTGRES = add_uploaded_file is not None
 
 UPLOAD_DIR.mkdir(exist_ok=True)
 
@@ -144,10 +147,16 @@ class DemoUploadHandler(BaseHTTPRequestHandler):
 
         file_item = form.getfirst("file")
         file_storage = form["file"] if "file" in form else None
+        username = (form.getfirst("username", "") or "").strip()
+        full_name = (form.getfirst("full_name", "") or "").strip()
         description = form.getfirst("description", "")
 
         if file_storage is None or not file_storage.filename:
             self.send_json(400, {"error": "No file uploaded"})
+            return
+
+        if not username:
+            self.send_json(400, {"error": "Username is required for the database helper"})
             return
 
         original_name = Path(file_storage.filename).name
@@ -160,16 +169,15 @@ class DemoUploadHandler(BaseHTTPRequestHandler):
 
         if USE_POSTGRES:
             db_id = None
-            if add_uploaded_file is not None:
-                try:
-                    db_id = add_uploaded_file(str(stored_path), "demo-upload", "Demo Upload User")
-                except Exception as exc:
-                    self.send_json(500, {
-                        "error": f"Database insert failed: {exc}",
-                        "name": original_name,
-                        "path": str(stored_path),
-                    })
-                    return
+            try:
+                db_id = add_uploaded_file(str(stored_path), username, full_name or username)
+            except Exception as exc:
+                self.send_json(500, {
+                    "error": f"Database insert failed: {exc}",
+                    "name": original_name,
+                    "path": str(stored_path),
+                })
+                return
 
             self.send_json(200, {
                 "message": "upload saved",
@@ -177,6 +185,8 @@ class DemoUploadHandler(BaseHTTPRequestHandler):
                 "name": original_name,
                 "path": str(stored_path),
                 "description": description,
+                "username": username,
+                "full_name": full_name or username,
             })
             return
 
