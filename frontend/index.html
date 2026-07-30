@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#f4f0e8" />
+  <title>Retain</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="intro">
+      <p class="eyebrow">Retain</p>
+      <h1>Retain information longterm.</h1>
+      <p>Upload a document and Retain will generate quiz questions from its content, so you can test recall instead of just re-reading.</p>
+    </section>
+
+    <section class="panel" id="uploadPanel" aria-labelledby="upload-heading">
+      <h2 class="panel-heading" id="upload-heading">Add a new file</h2>
+      <form id="uploadForm">
+        <label class="field file-picker">
+          <span class="field-label">Choose a file</span>
+          <input id="fileInput" type="file" required />
+        </label>
+        <label class="field">
+          <span class="field-label">Number of questions</span>
+          <input id="questionCount" type="number" min="1" max="25" value="10" />
+        </label>
+        <div class="field submit-row">
+          <button id="submitBtn" type="submit">Upload &amp; generate quiz</button>
+        </div>
+      </form>
+      <p class="status" id="uploadStatus" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="panel" id="quizPanel" aria-labelledby="quiz-heading" hidden>
+      <h2 class="panel-heading" id="quiz-heading">Quiz</h2>
+      <p class="quiz-progress" id="quizProgress"></p>
+
+      <div id="quizCard" class="quiz-card">
+        <p class="quiz-question" id="quizQuestion"></p>
+        <p class="quiz-answer" id="quizAnswer" hidden></p>
+      </div>
+
+      <div class="quiz-controls">
+        <button id="revealBtn" type="button">Reveal answer</button>
+        <button id="nextBtn" type="button" disabled>Next</button>
+      </div>
+
+      <div class="quiz-finish" id="quizFinish" hidden>
+        <h2 class="panel-heading">Nice work.</h2>
+        <p>You've been through every question generated from this file.</p>
+        <button id="restartBtn" type="button">Upload another file</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
