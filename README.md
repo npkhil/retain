@@ -3,6 +3,7 @@ Contributors: Elliott Paschane, Nicholas Khil, Aashrith Nujella
 hello
 apple
 
+```
         ,  .
        c(\/|
        /  o `-.
@@ -18,4 +19,5 @@ apple
        \ |/
         \|\_,
       ,_/  '
+```
 ------------------------------------------------
