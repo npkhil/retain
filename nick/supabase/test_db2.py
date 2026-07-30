@@ -12,7 +12,8 @@ def main() -> None:
     # add user to the database
     # _create_user(username, "Dude")
 
-    add_file(str(project_root / "Sample Files" / "Igneous Rocks Slide 1.pdf"), username)
+    add_file(str(project_root / "Sample Files" / "Preamble to the Constitution.txt"), username)
+    print("DONE")
 
     
 

@@ -1,13 +1,17 @@
 import os
 from typing import Dict, List, Optional
+from pathlib import Path
+from dotenv import load_dotenv
 
 import psycopg
 
+load_dotenv(Path(__file__).parent.parent.parent / ".env")
 DB_URL = os.getenv("SUPABASE_DB_URL", "postgresql://postgres:mysecretpassword@127.0.0.1:54322/mydb")
 
 
 def get_connection():
     """Return a new PostgreSQL connection to the Supabase database."""
+    print(DB_URL)
     return psycopg.connect(DB_URL)
 
 
