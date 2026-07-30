@@ -10,6 +10,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent.parent / ".env")
 
+import fitz  # pymupdf
 import anthropic
 client = anthropic.Anthropic(api_key = os.getenv("ANTHROPIC_API_KEY"))
 MODEL = "claude-haiku-4-5-20251001"
@@ -47,9 +48,18 @@ def _save_db(db: dict) -> None:
         json.dump(db, f, indent = 2)
 
 
+#extracts text locally (via pymupdf for PDFs) so we send plain text to the API
+#instead of raw PDF pages, which is cheaper and faster to process
+def _extract_text(file_path: Path) -> str:
+    if file_path.suffix.lower() == ".pdf":
+        with fitz.open(file_path) as doc:
+            return "\n".join(page.get_text() for page in doc)
+    return file_path.read_text(encoding = "utf-8")
+
+
 #calls the api once to generate `count` distinct questions for a file, instead of one call per question
 def generate_batch(file_path: Path, count: int) -> list[dict]:
-    document_text = file_path.read_text(encoding = "utf-8")
+    document_text = _extract_text(file_path)
 
     response = client.messages.create(
         model = MODEL,
