@@ -5,13 +5,17 @@ from dotenv import load_dotenv
 
 import psycopg
 
-load_dotenv(Path(__file__).parent.parent.parent / ".env")
-DB_URL = os.getenv("SUPABASE_DB_URL", "postgresql://postgres:mysecretpassword@127.0.0.1:54322/mydb")
+from text_extract import extract_text
+
+load_dotenv(Path(__file__).parent.parent / ".env")
+DB_URL = os.getenv("SUPABASE_DB_URL")
+
+if not DB_URL:
+    raise RuntimeError("SUPABASE_DB_URL is not set. Copy .env.example to .env and fill it in.")
 
 
 def get_connection():
     """Return a new PostgreSQL connection to the Supabase database."""
-    print(DB_URL)
     return psycopg.connect(DB_URL)
 
 
@@ -23,13 +27,11 @@ def _get_user_id(conn: psycopg.Connection, username: str) -> Optional[str]:
 
 
 def _create_user(conn: psycopg.Connection, username: str, full_name: str = "") -> str:
-    conn = get_connection()
     with conn.cursor() as cur:
         cur.execute(
             "insert into users (username, full_name) values (%s, %s) returning id",
             (username, full_name or username),
         )
-        conn.commit()
         return cur.fetchone()[0]
 
 
@@ -44,9 +46,8 @@ def _read_file_content(path: str) -> Optional[str]:
     if not os.path.isfile(path):
         return None
     try:
-        with open(path, "r", encoding="utf-8") as f:
-            return f.read()
-    except (UnicodeDecodeError, OSError):
+        return extract_text(Path(path))
+    except (UnicodeDecodeError, OSError, ValueError):
         return None
 
 
@@ -64,6 +65,21 @@ def add_file(path: str, username: str, full_name: str = "") -> str:
                 (user_id, file_name, absolute_path, content),
             )
             return cur.fetchone()[0]
+
+
+def get_file_by_id(file_id: str) -> Optional[Dict[str, str]]:
+    """Retrieve a file's name/path/owning username by its id."""
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                "select f.file_name, f.file_path, u.username from files f join users u on f.user_id = u.id where f.id = %s",
+                (file_id,),
+            )
+            row = cur.fetchone()
+            if not row:
+                return None
+            file_name, file_path, username = row
+            return {"file_name": file_name, "file_path": file_path, "username": username}
 
 
 def get_filepath(filename: str, username: str) -> Optional[str]:
