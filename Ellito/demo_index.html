@@ -3,28 +3,240 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Local Demo Upload</title>
+  <meta name="theme-color" content="#f4f0e8" />
+  <title>Retain | Local Upload</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172a2b;
+      --muted: #637170;
+      --paper: #fbfaf7;
+      --canvas: #f4f0e8;
+      --line: #d9ddd5;
+      --accent: #16736b;
+      --accent-dark: #0d514c;
+      --accent-soft: #e4f1ed;
+      --shadow: 0 24px 70px rgba(32, 48, 44, 0.11);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background:
+        radial-gradient(circle at 84% 12%, rgba(214, 230, 220, 0.7), transparent 28rem),
+        linear-gradient(135deg, var(--canvas) 0%, #eef2ed 100%);
+      color: var(--ink);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    }
+
+    .page {
+      width: min(100% - 40px, 1040px);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 52px 0;
+      display: grid;
+      grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr);
+      align-items: center;
+      gap: clamp(32px, 7vw, 92px);
+    }
+
+    .intro { padding-bottom: 18px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 22px;
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 28px;
+      height: 2px;
+      background: var(--accent);
+      content: "";
+    }
+
+    h1 {
+      max-width: 420px;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(42px, 6vw, 72px);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      line-height: 0.98;
+    }
+
+    .intro p {
+      max-width: 340px;
+      margin: 25px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .form-panel {
+      padding: clamp(24px, 5vw, 44px);
+      background: rgba(251, 250, 247, 0.92);
+      border: 1px solid rgba(217, 221, 213, 0.9);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-heading {
+      margin: 0 0 26px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      font-weight: 400;
+    }
+
+    .field { display: block; margin-top: 18px; }
+    .field:first-of-type { margin-top: 0; }
+
+    .field-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .required { color: var(--accent); }
+
+    input[type="text"], textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+      outline: none;
+      padding: 12px 13px;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    textarea { min-height: 94px; resize: vertical; }
+
+    input[type="text"]:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(22, 115, 107, 0.13);
+    }
+
+    .file-picker {
+      display: block;
+      padding: 18px;
+      border: 1px dashed #9bb8af;
+      border-radius: 5px;
+      background: var(--accent-soft);
+      cursor: pointer;
+      transition: background 160ms ease, border-color 160ms ease;
+    }
+
+    .file-picker:hover, .file-picker:focus-within {
+      border-color: var(--accent);
+      background: #d9ece6;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      color: var(--muted);
+      font: inherit;
+      font-size: 13px;
+    }
+
+    input[type="file"]::file-selector-button {
+      margin-right: 10px;
+      padding: 8px 11px;
+      border: 0;
+      border-radius: 3px;
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 26px;
+      padding: 13px 18px;
+      border: 0;
+      border-radius: 4px;
+      background: var(--ink);
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+
+    button:hover { background: var(--accent-dark); transform: translateY(-1px); }
+    button:focus-visible { outline: 3px solid rgba(22, 115, 107, 0.3); outline-offset: 3px; }
+
+    #result {
+      min-height: 24px;
+      margin: 22px 0 0;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font: 12px/1.6 Consolas, "Courier New", monospace;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 700px) {
+      .page { width: min(100% - 28px, 520px); padding: 32px 0; display: block; }
+      .intro { padding: 12px 4px 32px; }
+      h1 { font-size: clamp(44px, 14vw, 64px); }
+      .intro p { margin-top: 18px; }
+      .form-panel { padding: 24px 20px; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Local Demo Upload</h1>
-  <form id="uploadForm">
-    <label>File
-      <input id="fileInput" type="file" required />
-    </label>
-    <label>Username
-      <input id="username" type="text" value="demo-upload" required />
-    </label>
-    <label>Full Name
-      <input id="fullName" type="text" value="Demo Upload User" />
-    </label>
-    <label>Description
-      <textarea id="description" rows="3" placeholder="optional sample metadata"></textarea>
-    </label>
-    <button type="submit">Upload</button>
-  </form>
+  <main class="page">
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">Retain local demo</p>
+      <h1 id="page-title">Retain information longterm.</h1>
+      <p>Upload a document to your local workspace. Retain will generate questions based on its content, spacing them out periodically. Knowledge should last after the exam.</p>
+    </section>
 
-  <pre id="result">Status: idle</pre>
+    <section class="form-panel" aria-labelledby="form-heading">
+      <h2 class="form-heading" id="form-heading">Add a new file</h2>
+      <form id="uploadForm">
+        <label class="field file-picker">
+          <span class="field-label">Choose a file <span class="required" aria-hidden="true">*</span></span>
+          <input id="fileInput" type="file" required />
+        </label>
+        <label class="field">
+          <span class="field-label">Username <span class="required" aria-hidden="true">*</span></span>
+          <input id="username" type="text" value="demo-upload" required />
+        </label>
+        <label class="field">
+          <span class="field-label">Full name</span>
+          <input id="fullName" type="text" value="Demo Upload User" />
+        </label>
+        <label class="field">
+          <span class="field-label">Description</span>
+          <textarea id="description" rows="3" placeholder="Add a little context (optional)"></textarea>
+        </label>
+        <button type="submit">Upload file</button>
+      </form>
+
+      <pre id="result" role="status" aria-live="polite">Status: idle</pre>
+    </section>
+  </main>
 
   <script src="/demo_app.js"></script>
 </body>
 </html>
+
