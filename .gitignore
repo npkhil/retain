@@ -5,3 +5,4 @@ __pycache__/
 backend/uploads/*
 !backend/uploads/.gitkeep
 *.db
+Claude.md
